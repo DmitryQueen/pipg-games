@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://vwu4mqys2knc"]
+
+[ext_resource type="FontFile" uid="uid://bo87qaweec37" path="res://fonts/Some Time Later.otf" id="1_y26ei"]
+[ext_resource type="FontFile" uid="uid://c3pyjtneku56c" path="res://fonts/ThatNogoFontCasual.ttf" id="2_yxx3c"]
+[ext_resource type="Script" uid="uid://ctmhnsfabryvb" path="res://scripts/button_game_over.gd" id="3_ccer4"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.312341, 0.0194492, 0.00544837, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 245.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.866667, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.842413, 0.814955, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("1_y26ei")
+theme_override_font_sizes/font_size = 150
+text = "GAME OVER!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="button-game-over" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -50.0
+offset_right = 150.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_hover_color = Color(0.870588, 0.172549, 0.0862745, 1)
+theme_override_colors/font_pressed_color = Color(0.602038, 0.0995704, 0.0369631, 1)
+theme_override_fonts/font = ExtResource("2_yxx3c")
+theme_override_font_sizes/font_size = 70
+text = "Play  Again"
+flat = true
+script = ExtResource("3_ccer4")
+
+[connection signal="pressed" from="button-game-over" to="button-game-over" method="_on_pressed"]

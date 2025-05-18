@@ -1,0 +1,69 @@
+[gd_scene load_steps=6 format=3 uid="uid://cy2jqs7oh7xv1"]
+
+[ext_resource type="FontFile" uid="uid://c3pyjtneku56c" path="res://fonts/ThatNogoFontCasual.ttf" id="1_5yleq"]
+[ext_resource type="FontFile" uid="uid://gmhkj37xaugu" path="res://fonts/Redkost Comic.otf" id="2_ylpcl"]
+[ext_resource type="Script" uid="uid://bs40cq3fc7byd" path="res://scripts/button_title_play.gd" id="3_ylpcl"]
+
+[sub_resource type="FontVariation" id="FontVariation_cx167"]
+base_font = ExtResource("1_5yleq")
+
+[sub_resource type="FontVariation" id="FontVariation_dolsu"]
+base_font = ExtResource("2_ylpcl")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.113725, 0.2, 0.286275, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 200.0
+grow_horizontal = 2
+rotation = 0.0767945
+theme_override_colors/font_color = Color(0, 1, 0.784314, 1)
+theme_override_colors/font_shadow_color = Color(0.847059, 0.0117647, 1, 1)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 5
+theme_override_fonts/font = SubResource("FontVariation_cx167")
+theme_override_font_sizes/font_size = 150
+text = "Simple 3D game!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="button-title-play" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -50.0
+offset_right = 150.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_hover_color = Color(1, 0.486275, 0, 1)
+theme_override_colors/font_color = Color(0.717647, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.952941, 0.2, 1, 1)
+theme_override_fonts/font = SubResource("FontVariation_dolsu")
+theme_override_font_sizes/font_size = 72
+text = "Play"
+flat = true
+script = ExtResource("3_ylpcl")
+
+[connection signal="pressed" from="button-title-play" to="button-title-play" method="_on_pressed"]

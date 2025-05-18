@@ -1,0 +1,214 @@
+[gd_scene load_steps=16 format=3 uid="uid://bp44xq1lgb4t6"]
+
+[ext_resource type="Texture2D" uid="uid://cig812lwm6olg" path="res://textures/TactilePaving002_2K-JPG_NormalDX.jpg" id="1_0b4ue"]
+[ext_resource type="PackedScene" uid="uid://wry6eketaen8" path="res://assets/steve.tscn" id="1_u52ul"]
+[ext_resource type="Texture2D" uid="uid://b68xfj6jkfe62" path="res://textures/TactilePaving002_2K-JPG_Roughness.jpg" id="2_f2txt"]
+[ext_resource type="Environment" uid="uid://bhs1b5kjcqsi4" path="res://new_env.tres" id="2_oi3di"]
+[ext_resource type="Script" uid="uid://bavtsgtb6bnts" path="res://scripts/camera_3d.gd" id="2_vonw3"]
+[ext_resource type="MeshLibrary" uid="uid://c01h0mxehk78r" path="res://assets/blocksLibrary.tres" id="6_1ainy"]
+[ext_resource type="PackedScene" uid="uid://g56nt20wm8lg" path="res://assets/enemy.tscn" id="7_n6hdu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u52ul"]
+size = Vector3(30, 2, 30)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u52ul"]
+albedo_color = Color(0.864411, 0.380186, 9.62615e-07, 1)
+roughness_texture = ExtResource("2_f2txt")
+normal_enabled = true
+normal_scale = -5.0
+normal_texture = ExtResource("1_0b4ue")
+uv1_scale = Vector3(0.2, 0.2, 0.2)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_vonw3"]
+material = SubResource("StandardMaterial3D_u52ul")
+size = Vector3(30, 2, 30)
+
+[sub_resource type="GDScript" id="GDScript_u52ul"]
+script/source = "extends CharacterBody3D
+
+const SPEED = 12.0
+const ROTSPEED = 9
+
+func _physics_process(delta: float) -> void:
+	if Input.is_action_pressed(\"ui_right\") and Input.is_action_pressed(\"ui_left\"):
+		velocity.x = 0
+	elif Input.is_action_pressed(\"ui_right\"):
+		velocity.x = SPEED
+		$MeshInstance3D.rotate_z(deg_to_rad(-ROTSPEED))
+	elif Input.is_action_pressed(\"ui_left\"):
+		velocity.x = -SPEED
+		$MeshInstance3D.rotate_z(deg_to_rad(ROTSPEED))
+	else:
+		velocity.x = lerp(velocity.x, 0.0, 0.1)
+	
+	if Input.is_action_pressed(\"ui_up\") and Input.is_action_pressed(\"ui_down\"):
+		velocity.z = 0
+	elif Input.is_action_pressed(\"ui_up\"):
+		velocity.z = -SPEED
+		$MeshInstance3D.rotate_x(deg_to_rad(-ROTSPEED))
+	elif Input.is_action_pressed(\"ui_down\"):
+		velocity.z = SPEED
+		$MeshInstance3D.rotate_x(deg_to_rad(ROTSPEED))
+	else:
+		velocity.z = lerp(velocity.z, 0.0, 0.1)
+
+	move_and_slide()
+
+
+func _on_enemy_1_body_entered(body: Node3D) -> void:
+	if body.name == \"Steve\":
+		get_tree().change_scene_to_file(\"res://game_over.tscn\")
+"
+
+[sub_resource type="Animation" id="Animation_km5ld"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.34695, 1, -4.54742)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_n6hdu"]
+resource_name = "enemy1animation"
+length = 7.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.5, 5.5, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.34695, 1, -4.54742), Vector3(-4.65623, 1, -4.54742), Vector3(-4.65623, 1, 0.805825), Vector3(-4.65623, 1, -4.54742), Vector3(-1.34695, 1, -4.54742)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.5, 5.5, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 4.71239), Vector3(6.98132, 0, 4.71239), Vector3(0, 0, 4.71239), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_i2t4f"]
+resource_name = "enemy2animation"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-4.50966, 1, 4.46413), Vector3(-1.30362, 1, 4.46413), Vector3(-1.30362, 1, 4.46413), Vector3(-4.50966, 1, 4.46413), Vector3(-4.50966, 1, 4.46413)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -1.5708), Vector3(0, 0, -1.5708), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i2t4f"]
+_data = {
+&"RESET": SubResource("Animation_km5ld"),
+&"enemy1animation": SubResource("Animation_n6hdu"),
+&"enemy2animation": SubResource("Animation_i2t4f")
+}
+
+[node name="Level" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.145064, 0.989422, 0, -0.989422, -0.145064, -0.0120449, 10.0598, -2.13703)
+light_color = Color(0.999999, 0.99763, 0.407178, 1)
+light_energy = 0.2
+shadow_enabled = true
+shadow_normal_bias = 0.8
+directional_shadow_max_distance = 40.0
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_u52ul")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_vonw3")
+
+[node name="Steve" parent="." instance=ExtResource("1_u52ul")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = SubResource("GDScript_u52ul")
+
+[node name="CameraTarget" type="Node3D" parent="Steve"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.67426, 17.3331)
+
+[node name="Camera3D" type="Camera3D" parent="Steve" node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 0.99619, 0.0872079, 0, -0.0872079, 0.99619, 0, 11.4874, 34.3848)
+environment = ExtResource("2_oi3di")
+script = ExtResource("2_vonw3")
+target = NodePath("../CameraTarget")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("6_1ainy")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(65521, 65521, 720896, 65521, 65522, 720896, 65521, 65523, 720896, 65521, 65524, 720896, 65521, 65525, 720896, 65521, 65526, 720896, 65521, 65527, 720896, 65521, 65528, 720896, 65521, 65529, 720896, 65521, 65530, 720896, 65521, 65531, 720896, 65521, 65532, 720896, 65521, 65533, 720896, 65521, 65534, 720896, 65521, 65535, 720896, 65521, 0, 720896, 65521, 1, 720896, 65521, 2, 720896, 65521, 3, 720896, 65521, 4, 720896, 65521, 5, 720896, 65521, 6, 720896, 65521, 7, 720896, 65521, 8, 720896, 65521, 9, 720896, 65521, 10, 720896, 65521, 11, 720896, 65521, 12, 720896, 65521, 13, 720896, 65521, 14, 720896, 65522, 14, 720896, 65523, 14, 720896, 65524, 14, 720896, 65525, 14, 720896, 65526, 14, 720896, 65527, 14, 720896, 65528, 14, 720896, 65529, 14, 720896, 65530, 14, 720896, 65531, 14, 720896, 65532, 14, 720896, 65533, 14, 720896, 65534, 14, 720896, 65535, 14, 720896, 0, 14, 720896, 1, 14, 720896, 2, 14, 720896, 3, 14, 720896, 4, 14, 720896, 5, 14, 720896, 6, 14, 720896, 7, 14, 720896, 8, 14, 720896, 9, 14, 720896, 10, 14, 720896, 11, 14, 720896, 12, 14, 720896, 13, 14, 720896, 14, 14, 720896, 14, 13, 720896, 14, 12, 720896, 14, 11, 720896, 14, 10, 720896, 14, 9, 720896, 14, 8, 720896, 14, 7, 720896, 14, 6, 720896, 14, 5, 720896, 14, 4, 720896, 14, 3, 720896, 14, 2, 720896, 14, 1, 720896, 14, 0, 720896, 14, 65535, 720896, 14, 65534, 720896, 14, 65533, 720896, 14, 65532, 720896, 14, 65531, 720896, 14, 65530, 720896, 14, 65529, 720896, 14, 65528, 720896, 14, 65527, 720896, 14, 65526, 720896, 14, 65525, 720896, 14, 65524, 720896, 14, 65523, 720896, 14, 65522, 720896, 14, 65521, 720896, 65522, 65521, 983040, 65523, 65521, 983040, 65524, 65521, 983040, 65525, 65521, 983040, 65526, 65521, 983040, 65527, 65521, 983040, 65528, 65521, 983040, 65529, 65521, 983040, 65530, 65521, 983040, 65531, 65521, 983040, 65532, 65521, 983040, 65533, 65521, 983040, 65534, 65521, 983040, 65535, 65521, 983040, 0, 65521, 983040, 1, 65521, 983040, 2, 65521, 983040, 3, 65521, 983040, 4, 65521, 983040, 5, 65521, 983040, 6, 65521, 983040, 7, 65521, 983040, 8, 65521, 983040, 9, 65521, 983040, 10, 65521, 983040, 11, 65521, 983040, 12, 65521, 983040, 13, 65521, 983040, 65525, 65525, 983041, 65525, 65526, 983041, 65525, 65527, 983041, 65525, 65528, 983041, 65525, 65529, 983041, 65525, 65530, 983041, 65525, 65531, 983041, 65526, 65525, 983041, 65527, 65525, 983041, 65528, 65525, 983041, 65529, 65525, 983041, 65530, 65525, 983041, 65534, 65525, 983041, 65535, 65525, 983041, 0, 65525, 983041, 4, 65525, 983041, 5, 65525, 983041, 6, 65525, 983041, 7, 65525, 983041, 8, 65525, 983041, 9, 65525, 983041, 10, 65525, 983041, 10, 65526, 983041, 65529, 65529, 983041, 65529, 65530, 983041, 65529, 65531, 983041, 65529, 65532, 983041, 65529, 65533, 983041, 65530, 65529, 983041, 65531, 65529, 983041, 65532, 65529, 983041, 65533, 65529, 983041, 1, 65530, 983041, 2, 65530, 983041, 3, 65530, 983041, 4, 65530, 983041, 5, 65530, 983041, 6, 65530, 983041, 7, 65530, 983041, 8, 65530, 983041, 8, 65531, 983041, 8, 65532, 983041, 65525, 0, 983041, 65525, 1, 983041, 65525, 2, 983041, 65526, 2, 983041, 65527, 2, 983041, 65528, 2, 983041, 65529, 2, 983041, 65530, 2, 983041, 65531, 2, 983041, 65532, 2, 983041, 65529, 3, 983041, 65529, 4, 983041, 65529, 5, 983041, 65529, 6, 983041, 65525, 6, 983041, 65525, 7, 983041, 65525, 8, 983041, 65525, 9, 983041, 65525, 10, 983041, 65526, 10, 983041, 65527, 10, 983041, 65528, 10, 983041, 65529, 10, 983041, 65530, 10, 983041, 65531, 10, 983041, 65532, 10, 983041, 0, 4, 983041, 0, 5, 983041, 0, 6, 983041, 0, 7, 983041, 0, 8, 983041, 1, 4, 983041, 2, 4, 983041, 2, 3, 983041, 2, 2, 983041, 2, 1, 983041, 2, 0, 983041, 2, 65535, 983041, 3, 4, 983041, 4, 4, 983041, 5, 4, 983041, 5, 5, 983041, 5, 6, 983041, 5, 7, 983041, 5, 8, 983041, 5, 9, 983041, 5, 10, 983041, 6, 7, 983041, 7, 7, 983041, 8, 7, 983041, 9, 7, 983041, 10, 7, 983041, 9, 3, 983041, 9, 2, 983041, 9, 1, 983041, 9, 0, 983041)
+}
+
+[node name="enemy1" parent="." instance=ExtResource("7_n6hdu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.34695, 1, -4.54742)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="enemy1"]
+libraries = {
+&"": SubResource("AnimationLibrary_i2t4f")
+}
+autoplay = "enemy1animation"
+
+[node name="enemy2" parent="." instance=ExtResource("7_n6hdu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.34695, 1, -4.54742)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="enemy2"]
+libraries = {
+&"": SubResource("AnimationLibrary_i2t4f")
+}
+autoplay = "enemy2animation"
+
+[connection signal="body_entered" from="enemy1" to="Steve" method="_on_enemy_1_body_entered"]
+[connection signal="body_entered" from="enemy2" to="Steve" method="_on_enemy_1_body_entered"]
